@@ -1,4 +1,5 @@
 from housing.entity.config_entity import *
+#from ..util.util import read_yaml
 from housing.util.util import read_yaml
 from housing.exception import HousingException
 from housing.constants import *
@@ -6,14 +7,14 @@ import os, sys
 from housing.logger import logging
 
 class Configuration:
-    def __init__(self,config_file_path = CONFIG_FILE_PATH,current_time_stamp:str= CURRENT_TIME_STAMP) -> None:
+    def __init__(self,config_file_path = CONFIG_FILE_PATH,current_time_stamp:str= CURRENT_TIME_STAMP):
         self.config_info = read_yaml(config_file_path)
         self.training_pipeline = self.get_training_pipeline_config()
 
-    def get_data_ingestion_config(self) ->DataIngestionConfig:
+    def get_data_ingestion_config(self)->DataIngestionConfig:
         pass
 
-    def get_data_validation_config(self)-> DataValidationConfig:
+    def get_data_validation_config(self)->DataValidationConfig:
         pass
 
     def get_data_transformation_config(self)->DataTransformationConfig:
