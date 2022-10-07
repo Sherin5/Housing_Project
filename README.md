@@ -42,6 +42,12 @@ Install the ipynbkernel to run jupyter notebook
 pip install ipykernel
 ```
 
+To set the path to the directory in path, use the following command:
+```
+export PYTHONPATH="${PYTHONPATH}:/<YOUR_PATH>/"
+```
+
+
 
 
 
