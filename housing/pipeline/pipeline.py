@@ -52,13 +52,13 @@ class Pipeline:
             raise HousingException(e,sys) from e
     
 
-def run_pipeline(self):
-    try:
-        data_ingestion_artifact = self.start_data_ingestion()
-        logging.info(f"")
+    def run_pipeline(self):
+        try:
+            data_ingestion_artifact = self.start_data_ingestion()
+            logging.info(f"")
 
-    except Exception as e:
-        raise HousingException(e,sys) from e
+        except Exception as e:
+            raise HousingException(e,sys) from e
 
         
     

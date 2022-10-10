@@ -48,7 +48,7 @@ class Configuration:
             )
             data_ingestion_config = DataIngestionConfig(
                 dataset_download_url =DATA_INGESTION_URL , 
-                tgz_download_file=tgz_download_dir, 
+                tgz_download_dir=tgz_download_dir, 
                 raw_data_dir=RAW_DATA_DIR, 
                 ingested_train_dir=INGESTED_TRAIN_DIR, 
                 ingested_test_dir=INGESTED_TEST_DIR

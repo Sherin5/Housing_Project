@@ -9,7 +9,9 @@ from six.moves import urllib
 import pandas as pd
 from sklearn.model_selection import StratifiedShuffleSplit
 
-from macpath import split
+
+def testing(data_ingestion_config:DataIngestionConfig):
+    return data_ingestion_config.dataset_download_url
 
 class DataIngestion:
 
@@ -24,6 +26,7 @@ class DataIngestion:
         try:
             download_url = self.data_ingestion_config.dataset_download_url
             tgz_download_dir = self.data_ingestion_config.tgz_download_dir
+            
             if os.path.exists(tgz_download_dir):
                 os.remove(tgz_download_dir)
 
