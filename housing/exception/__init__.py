@@ -8,7 +8,7 @@ class HousingException(Exception): ## We are inheriting the exception class here
     @staticmethod
     def get_detailed_error(error_message:Exception, error_detail:sys)-> str:
         _,_,exec_tb = error_detail.exc_info()
-        line_num = exec_tb.tb_frame.f_lineno
+        line_num = exec_tb.tb_lineno
         file_name = exec_tb.tb_frame.f_code.co_filename
         error_message = f"Error occured in script [{file_name}] at line number [{line_num}]. Error message [{error_message}] "
         return error_message
