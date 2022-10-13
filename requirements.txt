@@ -6,3 +6,5 @@ ipykernel
 pyYAML
 six
 sklearn
+evidently
+typing
