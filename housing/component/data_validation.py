@@ -12,16 +12,24 @@ import json
 
 
 class DataValidation:
-    def __init__(self, data_validation_config:DataValidationConfig, data_ingestion_artifact:DataIngestionArtifact ) -> None:
+    def __init__(self, data_validation_config:DataValidationConfig, data_ingestion_artifact:DataIngestionArtifact ) :
         try:
             self.data_validation_config = data_validation_config
             self.data_ingestion_artifact = data_ingestion_artifact
         except Exception as e:
             raise HousingException(e,sys) from e
 
+    def get_train_test_df(self):
+        try:
+            train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
+            test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
+            return train_df, test_df
+        except Exception as e:
+            raise HousingException(e,sys) from e 
+
     def train_test_file_exists(self)->bool:
         try:
-            logging.info("SChecking if train and test data are available")
+            logging.info("Checking if train and test data are available")
             is_train_file_exists = False
             is_test_file_exists = False
             train_file_path  = self.data_ingestion_artifact.train_file_path
@@ -34,12 +42,7 @@ class DataValidation:
         except Exception as e:
             raise HousingException(e,sys) from e
 
-    def get_train_test_df(self):
-        try:
-            train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
-            test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
-        except Exception as e:
-            raise HousingException(e,sys) from e 
+    
 
     def validate_dataset_schema(self)-> bool:
         try:
@@ -53,8 +56,10 @@ class DataValidation:
             profile = Profile(sections = [DataDriftProfileSection()])
             train_df, test_df = self.get_train_test_df()
             profile.calculate(train_df, test_df)
-            profile.json()
-            report = json.loads(profile.json())
+            report = json.loads(profile.json()) ## To convert string returned by profile.json into JSON
+            report_file_path = self.data_validation_config.report_file_path
+            report_dir = os.path.dirname(report_file_path)
+            os.makedirs(report_dir, exist_ok=True)
             with open(self.data_validation_config.report_file_path, "w") as report_file:
                 json.dump(report, report_file, indent=6 ) ## Indent is to format the data
             return report
@@ -66,6 +71,9 @@ class DataValidation:
             dashboard = Dashboard(tabs=[DataDriftTab()])
             train_df, test_df = self.get_train_test_df()
             dashboard.calculate(train_df, test_df)
+            report_page_file_path = self.data_validation_config.report_page_file_path
+            report_dir = os.path.dirname(report_page_file_path)
+            os.makedirs(report_page_file_path, exist_ok=True)
             dashboard.save(self.data_validation_config.report_page_file_path)
         except Exception as e:
             raise HousingException(e,sys) from e
