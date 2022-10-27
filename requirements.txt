@@ -9,3 +9,4 @@ sklearn
 evidently
 typing
 plotly
+dill

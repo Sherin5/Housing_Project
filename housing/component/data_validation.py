@@ -39,6 +39,12 @@ class DataValidation:
             is_available = is_train_file_exists and is_test_file_exists
             logging.info(f"Do the train and test files exists -> {is_available}")
             return is_available
+            if not is_available:
+                training_file = self.data_ingestion_artifact.train_file_path
+                testing_file = self.data_ingestion_artifact.test_file_path
+                message=f"Training file: {training_file} or Testing file: {testing_file}" \
+                    "is not present"
+                raise Exception(message)
         except Exception as e:
             raise HousingException(e,sys) from e
 
@@ -47,7 +53,7 @@ class DataValidation:
     def validate_dataset_schema(self)-> bool:
         try:
             validation_status = True
-
+            return validation_status
         except Exception as e:
             raise HousingException(e,sys) from e
 
@@ -73,8 +79,8 @@ class DataValidation:
             dashboard.calculate(train_df, test_df)
             report_page_file_path = self.data_validation_config.report_page_file_path
             report_dir = os.path.dirname(report_page_file_path)
-            os.makedirs(report_page_file_path, exist_ok=True)
-            dashboard.save(self.data_validation_config.report_page_file_path)
+            os.makedirs(report_dir, exist_ok=True)
+            dashboard.save(report_page_file_path)
         except Exception as e:
             raise HousingException(e,sys) from e
     
@@ -100,5 +106,6 @@ class DataValidation:
                 message="Data Validation performed successfully"
             )
             logging.info(f"Data Validation artifact {data_validation_artifact} ")
+            return data_validation_artifact
         except Exception as e:
             raise HousingException(e,sys) from e
