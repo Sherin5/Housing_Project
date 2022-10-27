@@ -1,6 +1,4 @@
-from socketserver import DatagramRequestHandler
-from tkinter import E
-from turtle import st
+
 from housing.constants import *
 from housing.exception import HousingException
 from housing.logger import logging
